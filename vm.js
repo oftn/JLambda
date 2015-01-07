@@ -46,7 +46,7 @@ function evaluate(ast, environment) {
     }
   }
   else if (ast.exprType === "Definition") {
-    console.log(ast);
+    return ast;
   }
   else {
     return ast.val;
