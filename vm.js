@@ -9,7 +9,7 @@ var env = require("./environments.js");
 
 //var istr = fs.readFileSync('/dev/stdin').toString();
 //var istr = "if true then (+ 6 (a+a*b)) else 1";
-var istr = "def (f a) (a + b)"
+var istr = "def (f a) (+ a a)"
 var ast = parse.parseFull(tokenizer.tokenize(istr));
 
 function apply(func, p) {
@@ -46,6 +46,10 @@ function evaluate(ast, environment) {
     }
   }
   else if (ast.exprType === "Definition") {
+    // Get the values of the free variables
+    // Throw an unbound error if one is unbound
+    // Traverse the function part of the closure and replace instances of the free
+    // variables with instances of a record offset in the environment
     return ast;
   }
   else {

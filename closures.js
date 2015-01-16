@@ -117,8 +117,15 @@ function annotate_fvs_all(stx) {
       return closure;
     case "Function":
       closure = annotate_fvs(stx);
-      closure.body.body = annotate_fvs_all(closure.body.body);
-      return closure;
+      if (closure.free_vars.length !== 0) {
+        /* This checks if there are any free variables
+         * If there are no free variables in the body of the function
+         * then it is not a closure
+         */
+        closure.body.body = annotate_fvs_all(closure.body.body);
+        return closure;
+      }
+      return annotate_fvs_all(stx.body);
     case "Unary":
       stx.val = annotate_fvs_all(stx.val);
       return stx;
