@@ -97,6 +97,9 @@ function pprint(expr) {
   else if (expr.exprType === "TypeDeclaration") {
     return "( " + pprint(expr.expression) + " :: " + pprint(expr.type) + " )";
   }
+  else if (expr.exprType === "Closure") {
+    return "(closure, free vars: " + expr.free_vars + ", bound_vars: " + expr.bound_vars + ", body: " + pprint(expr.body) + ")";
+  }
 }
 
 module.exports = {pprint : pprint};

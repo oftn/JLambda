@@ -29,6 +29,7 @@ function desugarDefFunc(def) {
 
 function curryFunc(ps, body) {
   var result;
+  console.log(ps);
   if (_.isEmpty(ps)) {
     return desugar(body);
   }

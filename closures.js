@@ -125,7 +125,8 @@ function annotate_fvs_all(stx) {
         closure.body.body = annotate_fvs_all(closure.body.body);
         return closure;
       }
-      return annotate_fvs_all(stx.body);
+      stx.body = annotate_fvs_all(stx.body);
+      return stx;
     case "Unary":
       stx.val = annotate_fvs_all(stx.val);
       return stx;
