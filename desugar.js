@@ -29,7 +29,6 @@ function desugarDefFunc(def) {
 
 function curryFunc(ps, body) {
   var result;
-  console.log(ps);
   if (_.isEmpty(ps)) {
     return desugar(body);
   }
@@ -45,7 +44,8 @@ function curryFunc(ps, body) {
 
 function desugarLet(stx) {
   var values = stx.pairs.map(desugar);
-  return new typ.LetExp(values, desugar(stx.body));
+  var retval = new typ.LetExp(values, desugar(stx.body));
+  return retval;
 }
 
 function sugarTypeDecl(stx) {

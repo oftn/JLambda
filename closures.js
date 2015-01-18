@@ -72,11 +72,10 @@ function annotate_fvs(stx) {
    * a let
    * and returns a closure wrapped around that stx object
    */
-  if (stx.exprType !== "Function" &&
-      stx.exprType !== "Let") {
+  if (stx.exprType !== "Function") {
     throw errors.JInternalError(
            ["Tried to calculate the free variables of",
-           "something that was not a function or let.\n",
+           "something that was not a function.\n",
            "That something was a: " + stx.exprType +"\n"].reduce(
                 function (a,b) {
                   return a+" "+b;
@@ -84,22 +83,8 @@ function annotate_fvs(stx) {
   }
   var variables, free_variables, bound_vars, stx_type;
 
-  switch (stx.exprType) {
-    case "Let":
-      bound_vars = stx.pairs.map(
-         function (stx) {
-           return stx.ident.ident;
-         });
-      var let_fvs = stx.pairs.map(fvs);
-      var body_fvs = fvs(stx.body);
-      variables = _.flatten(let_fvs);
-      $.extend(variables, _.flatten(body_fvs));
-      break;
-    case "Function":
-      bound_vars = [stx.p.ident,];
-      variables = fvs(stx.body);
-      break;
-  }
+  bound_vars = [stx.p.ident,];
+  variables = fvs(stx.body);
   free_variables = _.difference(_.uniq(variables), bound_vars);
   return new rep.Closure(bound_vars, free_variables, stx, []);
 }
@@ -111,10 +96,9 @@ function annotate_fvs_all(stx) {
   var closure;
   switch (stx.exprType) {
     case "Let":
-      closure = annotate_fvs(stx);
-      closure.body.pairs = closure.body.pairs.map(annotate_fvs_all);
-      closure.body = annotate_fvs_all(closure.body.body);
-      return closure;
+      stx.pairs = stx.pairs.map(annotate_fvs_all);
+      stx.body = annotate_fvs_all(stx.body);
+      return stx;
     case "Function":
       closure = annotate_fvs(stx);
       if (closure.free_vars.length !== 0) {

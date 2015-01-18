@@ -9,7 +9,7 @@ var env = require("./environments.js");
 
 //var istr = fs.readFileSync('/dev/stdin').toString();
 //var istr = "if true then (+ 6 (a+a*b)) else 1";
-var istr = "def (f z t) (t  * t)"
+var istr = "let { y = 4 } (lambda b -> (y + b))"
 var ast = parse.parseFull(tokenizer.tokenize(istr));
 
 function apply(func, p) {
@@ -46,6 +46,10 @@ function evaluate(ast, environment) {
     }
   }
   else if (ast.exprType === "Definition") {
+    // put it in the environment
+    return ast;
+  }
+  else if (ast.exprType === "Closure") {
     // Get the values of the free variables
     // Throw an unbound error if one is unbound
     // Traverse the function part of the closure and replace instances of the free
@@ -53,7 +57,7 @@ function evaluate(ast, environment) {
     return ast;
   }
   else {
-    return ast.val;
+    return ast;
   }
 }
 var testenv = env.makeEnv("toplevel",

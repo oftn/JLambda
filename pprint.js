@@ -83,6 +83,7 @@ function pprint(expr) {
     return "("+expr.op.ident+" "+pprint(expr.val)+")";
   }
   else if (expr.exprType === "Let") {
+    console.log(expr);
     return "let {" + expr.pairs.map(
           function (v) {
             return pprint(v);
