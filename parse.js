@@ -707,6 +707,11 @@ function parseInfix(tokens, minPrec, lhs, linenum, charnum) {
   if (!lhs) {
     lhs = parse(tokens);
   }
+  if (lhs.exprType === "Definition") {
+    throw error.JSyntaxError(lhs.linenum,
+                             lhs.charnum,
+                             "Function application operand cannot be a definition");
+  }
   while (true) {
     var cur = fst(tokens);
     if (!cur) {
@@ -726,6 +731,11 @@ function parseInfix(tokens, minPrec, lhs, linenum, charnum) {
     tokens.pop();
     /*remove the operator token*/
     var rhs = parseInfix(tokens, nextMinPrec);
+    if (rhs.exprType === "Definition") {
+    throw error.JSyntaxError(rhs.linenum,
+                             rhs.charnum,
+                             "Function application operand cannot be a definition");
+  }
     lhs = addSrcPos(typ.makeApp(op, [lhs, rhs]), tokens, rhs.linenum, rhs.charnum);
   }
   return lhs;

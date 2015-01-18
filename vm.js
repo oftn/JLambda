@@ -9,7 +9,7 @@ var env = require("./environments.js");
 
 //var istr = fs.readFileSync('/dev/stdin').toString();
 //var istr = "if true then (+ 6 (a+a*b)) else 1";
-var istr = "let { y = 4 } (lambda b -> (y + b))"
+var istr = "(3 + def a 3)"
 var ast = parse.parseFull(tokenizer.tokenize(istr));
 
 function apply(func, p) {
