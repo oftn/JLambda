@@ -41,6 +41,21 @@ function curryFunc(ps, body) {
   }
 }
 
+// Take an application to a list of parameters and
+// change it to fully apply a curried function
+function curryApp(name, parameters) {
+  if (parameters) {
+    return parameters.slice(1).reduce(function(f, ident) {
+      return new App(f, ident);
+    }, new App(name, parameters[0]));
+  }
+  else {
+    return new App(name);
+  }
+}
+
+
+
 
 function desugarLet(stx) {
   var values = stx.pairs.map(desugar);
@@ -109,6 +124,8 @@ function desugar(stx, typeEnv) {
       if ((stx.func.ident === "-" ||
           stx.func.ident === "+") &&
           stx.p) {
+            console.log(stx.p);
+            console.log("unary operation here");
             return new typ.UnaryOp(desugar(stx.func, typeEnv), desugar(stx.p, typeEnv));
           }
       if (stx.p) {

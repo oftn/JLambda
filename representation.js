@@ -344,7 +344,6 @@ function DataType(name, params, type) {
   return this;
 }
 
-
 //Applies the function ``name'' to the list of parameters
 function makeApp(name, parameters) {
   if (parameters) {
@@ -356,6 +355,7 @@ function makeApp(name, parameters) {
     return new App(name);
   }
 }
+
 
 function makeGensym() {
   var n = 0;

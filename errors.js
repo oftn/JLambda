@@ -33,16 +33,10 @@ function JTypeError(linenum, charnum, token, message) {
  * since the compiler will know at compile time whether
  * a variable was unbound
  */
-function JUnboundError(linenum, charnum, name, env) {
-  this.linenum = linenum;
-  this.charnum = charnum;
+function JUnboundError(name, env) {
   this.name = name;
   this.env_name = env.name;
-  this.uberror = function() {
-    console.log("Unbound variable " + name,
-                "At: line " + linenum,
-                "Near: character " + charnum);
-  }
+  console.log("Unbound variable " + name);
   return this;
 }
 
@@ -56,5 +50,6 @@ function JInternalError(message) {
 module.exports =
   {JSyntaxError : JSyntaxError,
    JTypeError : JTypeError,
-   JInternalError : JInternalError
+   JInternalError : JInternalError,
+   JUnboundError : JUnboundError
   };

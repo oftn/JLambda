@@ -47,7 +47,7 @@ function fvs(stx) {
     case "Definition":
       return _.flatten(fvs(stx.val));
     case "Application":
-      var vs = _.flatten(fvs(stx.p));
+      var vs = _.flatten(fvs(stx.func.p));
       var f_fvs = _.flatten(fvs(stx.func));
       return _.flatten([vs, f_fvs]);
     case "If":
@@ -90,7 +90,7 @@ function annotate_fvs(stx) {
 }
 
 /*
- * This traverse the tree and gathers up all of the free variables of various functions/let bindings
+ * This traverses the tree and gathers up all of the free variables of various functions/let bindings
  */
 function annotate_fvs_all(stx) {
   var closure;

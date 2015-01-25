@@ -821,7 +821,7 @@ function parseFull(tokenized) {
   var current;
   try {
     while (tokenized.length > 0) {
-      current = closure.annotate_fvs(desugarer.desugar(parse(tokenized), typeBindings));
+      current = desugarer.desugar(parse(tokenized), typeBindings);
       ast.push(current);
     }
     return [ast, typeBindings];
