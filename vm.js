@@ -9,8 +9,9 @@ var env = require("./environments.js");
 
 //var istr = fs.readFileSync('/dev/stdin').toString();
 //var istr = "if true then (+ 6 (a+a*b)) else 1";
-var istr = "(+ 3 12)"
+var istr = "12.3";
 var ast = parse.parseFull(tokenizer.tokenize(istr));
+console.log(ast);
 
 function apply(func, p) {
   return func(p);
@@ -67,8 +68,8 @@ var testenv = env.makeEnv("toplevel",
                        ["a", 2],
                        ["b", 3]]);
 
-var all = evaluate(ast[0][ast[0].length - 1], testenv);
-console.log(JSON.stringify(all, null, 4));
+//var all = evaluate(ast[0][ast[0].length - 1], testenv);
+//console.log(JSON.stringify(all, null, 4));
 //console.log(JSON.stringify(ast, null, 4));
 //console.log("%j", testenv);
 //console.log("%j", ast[0][ast[0].length - 1]);

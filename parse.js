@@ -23,6 +23,7 @@ function sourcePos(tokens, linenum, charnum) {
 }
 
 function addSrcPos(stx, tokens, linenum, charnum) {
+  console.log(stx);
   var pos = sourcePos(tokens, linenum, charnum);
   stx.linenum = pos.linenum;
   stx.charnum = pos.charnum;
@@ -693,7 +694,7 @@ function computeApp(tokens, charnum, linenum) {
     }
     else {
       tokens.pop();
-      return addSrcPos(typ.makeApp(lhs, parameters), tokens, linenum, charnum);
+      return addSrcPos(new App(lhs, parameters), tokens, linenum, charnum);
     }
   }
 }
@@ -736,7 +737,7 @@ function parseInfix(tokens, minPrec, lhs, linenum, charnum) {
                              rhs.charnum,
                              "Function application operand cannot be a definition");
   }
-    lhs = addSrcPos(typ.makeApp(op, [lhs, rhs]), tokens, rhs.linenum, rhs.charnum);
+    lhs = addSrcPos(new App(op, [lhs, rhs]), tokens, rhs.linenum, rhs.charnum);
   }
   return lhs;
 }
@@ -822,6 +823,7 @@ function parseFull(tokenized) {
   try {
     while (tokenized.length > 0) {
       current = desugarer.desugar(parse(tokenized), typeBindings);
+      console.log(current);
       ast.push(current);
     }
     return [ast, typeBindings];
